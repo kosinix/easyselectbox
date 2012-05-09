@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Easy Selectbox</title>
+	<meta name="description" content="Easy Selectbox" />
+	<meta name="keywords" content="Easy Selectbox" />
+	<link rel="stylesheet" type="text/css" media="screen" href="css/easyselectbox.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
+	
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/easyselectbox-1.0.5.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		//example 1
+		$('#example-1').easySelectBox();
+		
+		//example 2
+		$('#example-2').easySelectBox({speed:100});
+		
+		//example 3
+		$('#example-3').easySelectBox();
+		$('#example-3-0').click(function(e){
+			$('#example-3').easySelectBox( "option", "index", 0 );
+			e.preventDefault();
+		});
+		$('#example-3-1').click(function(e){
+			$('#example-3').easySelectBox( "option", "index", 1 );
+			e.preventDefault();
+		});
+		$('#example-3-2').click(function(e){
+			$('#example-3').easySelectBox( "option", "index", 2 );
+			e.preventDefault();
+		});	
+		
+		//example 4
+		$('#example-4').easySelectBox();
+		$('#example-4-enable').click(function(e){
+			$('#example-4').easySelectBox( "option", "disabled", false );
+			e.preventDefault();
+		});
+		$('#example-4-disable').click(function(e){
+			$('#example-4').easySelectBox( "option", "disabled", true );
+			e.preventDefault();
+		});
+		
+		
+		$('#sample5').easySelectBox({
+			onBuildList:function(data){
+				var dropdownHtml = '<div class="esb-dropdown esb-dropdown-sample5">';
+				var itemsPerCol = 2;
+				$.each(data.lists, function(i, el){
+					
+					if(i%itemsPerCol==0){
+						dropdownHtml += '<div class="esb-column">';
+					}
+					dropdownHtml += '<div class="esb-item">'+$(el).text()+'</div>';
+					if((i+1)%itemsPerCol==0){
+						dropdownHtml += '</div>';
+					}
+				});
+				dropdownHtml += '<div class="clear"></div></div>';
+				
+				return dropdownHtml;
+			
+			}
+		});
+		
+		$('#sample6').easySelectBox({speed:'fast'});
+		$('#sample6-open').click(function(){
+			$('#sample6').easySelectBox('open', true);//set persistent to true and dropdown will remain open even when losing focus, unless closed explicitly
+			return false;
+		});
+		$('#sample6-close').click(function(){
+			$('#sample6').easySelectBox('close');
+			return false;
+		});
+		
+		$('#sample7').easySelectBox({speed:100});
+		$('#sample7-select-1').click(function(){
+			$('#sample7').easySelectBox('select', 'New York');
+			return false;
+		});
+		$('#sample7-select-2').click(function(){
+			$('#sample7').easySelectBox('select', 'Vancouver');
+			return false;
+		});
+		$('#sample7-select-3').click(function(){
+			$('#sample7').easySelectBox('select', '');
+			return false;
+		});
+		$('#sample7-select-4').click(function(){
+			$('#sample7').easySelectBox('select', 'Washington', true);//useValue = true
+			return false;
+		});	
+	});
+	</script>
+</head>
+<body>
+	<div id="wrapper">
+		<h1>Easy Select Box</h1>
+		<form id="form1" method="post" action="">
+			<div class="entry-example">
+				<h2>Example 1 - Default</h2>
+				<pre>$('#example-1').easySelectBox();</pre>
+				<label for="example-1">Civil Status:</label>
+				<select name="status" id="example-1">
+					<option value="1">Single</option>
+					<option value="2">Married</option>
+					<option value="3">Divorced</option>
+				</select>
+			</div>
+			
+			<div class="entry-example">
+				<h2>Example 2 - Speed</h2>
+				<p>Here we specify the speed of dropdown in milliseconds.</p>
+				<pre>$('#example-2').easySelectBox({speed:100});</pre>
+				<label for="example-2">Categories:</label>
+				<select name="categories" id="example-2">
+					<option>All Books</option>
+					<option>Best Sellers</option>
+					<option>Biography</option>
+					<option>Suspense</option>
+				</select>
+			</div>
+			
+			<div class="entry-example">
+				<h2>Example 3 - Set Value of Select by Index</h2>
+				<pre>$('#example-3').easySelectBox();
+$('#example-3-0').click(function(e){
+	$('#example-3').easySelectBox( "option", "index", 0 );
+	e.preventDefault();
+});
+$('#example-3-1').click(function(e){
+	$('#example-3').easySelectBox( "option", "index", 1 );
+	e.preventDefault();
+});
+$('#example-3-2').click(function(e){
+	$('#example-3').easySelectBox( "option", "index", 2 );
+	e.preventDefault();
+});
+</pre>
+				<label for="example-3">Sample Dropdown:</label>
+				<select name="example_3" id="example-3">
+					<option value="1">Option 1</option>
+					<option value="2">Option 2</option>
+					<option value="3">Option 3</option>
+				</select>
+				<a href="#" id="example-3-0">Set index to 0</a> | 
+				<a href="#" id="example-3-1">Set index to 1</a> | 
+				<a href="#" id="example-3-2">Set index to 2</a>
+			</div>
+			
+			
+			<div class="entry-example">
+				<h2>Example 4 - Enable/Disable</h2>
+				<p>There are variety of ways to disable the select. One is by specifying <strong>disabled="disabled"</strong> in the select element itself.</p>
+				<pre>&lt;select <strong>disabled="disabled"</strong> name="sample4" id="sample4">
+	&lt;option value="1">Option 1&lt;/option&gt;
+	&lt;option value="2">Option 2&lt;/option&gt;
+	&lt;option value="3">Option 3&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+<p>You can also set it as a parameter of the plugin:</p>
+				<pre>$('#example-4').easySelectBox({disabled:true});</pre>
+<p>Or by setting it after the plugin was initialized. Below is a script that will disable/enable the select:</p>
+				<pre>$('#example-4').easySelectBox();
+$('#example-4-enable').click(function(e){
+	$('#example-4').easySelectBox( "option", "disabled", false );
+	e.preventDefault();
+});
+$('#example-4-disable').click(function(e){
+	$('#example-4').easySelectBox( "option", "disabled", true );
+	e.preventDefault();
+});
+</pre>
+				<label for="example-4">Sample Dropdown:</label>
+				<select disabled="disabled" name="example_4" id="example-4">
+					<option value="1">Option 1</option>
+					<option value="2">Option 2</option>
+					<option value="3">Option 3</option>
+				</select>
+				<a href="#" id="example-4-enable">Enable</a> | 
+				<a href="#" id="example-4-disable">Disable</a>
+			</div>
+			
+			
+			<div class="entry-example">
+				<h2>Example 5 - onBuildList</h2>
+				<p>Here we used the onBuildList callback to build a list. The list is grouped into columns containing 2 items each.</p>
+				<pre>$('#sample5').easySelectBox({
+	onBuildList:function(data){
+		var dropdownHtml = '&lt;div class="esb-dropdown esb-dropdown-sample5"&gt;';
+		var itemsPerCol = 2;
+		$.each(data.lists, function(i, el){
+			
+			if(i%itemsPerCol==0){
+				dropdownHtml += '&lt;div class="esb-column"&gt;';
+			}
+			dropdownHtml += '&lt;div class="esb-item"&gt;'+$(el).text()+'&lt;/div&gt;';
+			if((i+1)%itemsPerCol==0){
+				dropdownHtml += '&lt;/div&gt;';
+			}
+		});
+		dropdownHtml += '&lt;div class="clear"&gt;&lt;/div&gt;&lt;/div&gt;';
+		return dropdownHtml;
+	}
+});
+</pre>
+				<label for="sample5">Custom Build List:</label>
+				<select name="sample5" id="sample5">
+					<option value="1">Argentina</option>
+					<option value="2">Brazil</option>
+					<option value="3">China</option>
+					<option value="4">Denmark</option>
+					<option value="5">Ecuador</option>
+					<option value="6">Finland</option>
+				</select>
+			</div>
+			<div class="entry-example">
+				<h2>Example 6 - Open and close method</h2>
+				<pre>$('#sample6').easySelectBox({speed:'fast'});
+$('#sample6-open').click(function(){
+	$('#sample6').easySelectBox('open', true);//set persistent to true and dropdown will remain open even when losing focus, unless closed explicitly
+	return false;
+});
+$('#sample6-close').click(function(){
+	$('#sample6').easySelectBox('close');
+	return false;
+});
+</pre>
+				<label for="sample6">Civil Status:</label>
+				<select name="sample6" id="sample6">
+					<option value="1">Single</option>
+					<option value="2">Married</option>
+					<option value="3">Divorced</option>
+				</select>
+				<a href="#" id="sample6-open">Open select box </a> | 
+				<a href="#" id="sample6-close">Close select box </a>
+			</div>
+			
+			<div class="entry-example">
+				<h2>Example 7 - Select method</h2>
+				<pre>$('#sample7').easySelectBox({speed:100});
+$('#sample7-select-1').click(function(){
+	$('#sample7').easySelectBox('select', 'New York');
+	return false;
+});
+$('#sample7-select-2').click(function(){
+	$('#sample7').easySelectBox('select', 'Vancouver');
+	return false;
+});
+$('#sample7-select-3').click(function(){
+	$('#sample7').easySelectBox('select', '');
+	return false;
+});
+$('#sample7-select-4').click(function(){
+	$('#sample7').easySelectBox('select', 'Washington', true);//useValue = true
+	return false;
+});
+</pre>
+				<label for="sample7">Civil Status:</label>
+				<select name="sample7" id="sample7">
+					<option></option>
+					<option>Atlanta</option>
+					<option>New York</option>
+					<option>Vancouver</option>
+					<option value="Washington">Washington DC</option>
+				</select>
+				<a href="#" id="sample7-select-1">New York </a> | 
+				<a href="#" id="sample7-select-2">Vancouver</a> | 
+				<a href="#" id="sample7-select-3">Blank</a> | 
+				<a href="#" id="sample7-select-4">Washington</a>
+			</div>
+		</form>
+		
+	</div>
+	<!-- /wrapper -->
+</body>
+</html>
