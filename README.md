@@ -5,7 +5,7 @@ Replace select with div tags for easy styling via css.
 
 ### Features
 
-* Multiple instances, initial value specified by selected attribute, optional classNames, optional speed, callback onClick, callback onBuildList
+* Multiple instances, initial value specified by selected attribute, works with cufonized text, optional classNames, optional speed, callback onClick, callback onBuildList
 
 ### Tested
 
