@@ -1,15 +1,25 @@
-/* Easy Select Box Core CSS */
+/* Core CSS. Do not edit unless your sure */
 .easy-select-box{
 	display:inline-block;
-	width:118px;
 	position:relative;
+}
+.easy-select-box .esb-dropdown{
+	position:absolute;
+	top:100%;
+	left:0;
+	z-index:99;
+	display:none;
+}
+
+/* Default Presentation CSS. You can edit appearance here or create a custom class below */
+.easy-select-box{
+	width:118px;
 	text-align:left;
 	font-size:11px;
 	color:#0c2245;
 }
 .easy-select-box .esb-displayer{
-	background: url(../images/bg-select-4.png) no-repeat 0 0;
-	display:block;
+	background: url(../images/bg-select-1.png) no-repeat 0 0;
 	color:#0c2245;
 	padding:0 3px;
 	height:18px;
@@ -17,7 +27,6 @@
 	cursor: default;
 }
 .easy-select-box:hover .esb-displayer{
-	position:relative;
 	background-position: 0 -18px;
 	text-decoration:none;
 }
@@ -26,21 +35,15 @@
 	background-position: 0 -36px;
 }
 .easy-select-box .esb-dropdown{
-	position:absolute;
-	top:100%;
-	left:0;
 	border:1px solid #cccccc;
-	z-index:99;
 	width:116px;
 	max-height:200px;
 	overflow:auto;
 	background:#FFFFFF;
-	display:none;
 }
 .easy-select-box .esb-dropdown .esb-item{
 	padding:3px;
 	background:#FFFFFF;
-	display:block;
 	color:#0c2245;
 	cursor:default;
 }
@@ -48,4 +51,42 @@
 	background:#3399ff;
 	color:#FFFFFF;
 	text-decoration:none;
+}
+
+
+/* Custom Presentation CSS. You can edit appearance here */
+.easy-select-box-nice{
+	text-align:left;
+	color:#0c2245;
+	min-width:200px;
+}
+.easy-select-box-nice .esb-displayer{
+	background: url(../images/bg-select-2.png) no-repeat right 0;
+	border-left:1px solid #cccccc;
+	border-right:1px solid #cccccc;
+	padding:0 5px;
+	height:37px;
+	line-height:37px;
+	cursor: default;
+	border-radius:10px;
+}
+.easy-select-box-nice:hover .esb-displayer{
+	background-position: right -37px;
+}
+.easy-select-box-nice.disabled .esb-displayer,
+.easy-select-box-nice:hover.disabled .esb-displayer{
+	background-position: right -74px;
+	color:#ccc;
+}
+.easy-select-box-nice .esb-dropdown{
+	border:1px solid #cccccc;
+	background:#FFFFFF;
+}
+.easy-select-box-nice .esb-dropdown .esb-item{
+	padding:3px 5px;
+	cursor:default;
+}
+.easy-select-box-nice .esb-dropdown .esb-item:hover{
+	background:#3399ff;
+	color:#FFFFFF;
 }

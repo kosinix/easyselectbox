@@ -1,13 +1,14 @@
 /*
- * Easy Select Box 1.0.5
+ * Easy Select Box 1.0.6
  * http://codefleet.byethost9.com/easy-select-box/
- * Replace select with custom html for easy styling via css.
+ * Replace select with div for easy styling via css.
  * Features: multiple instances, initial value specified by selected attribute, optional classNames, optional speed, callback onClick, callback onBuildList
  * Tested: IE7, IE8, Chrome 10, FF3, Safari 3.2 windows, Opera 11
  * 
  * Copyright 2012, Nico Amarilla
  * Dual licensed under the MIT or GPL Version 2 licenses.
- * License same as jQuery http://jquery.org/license
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
  */
 (function($){
 	var timer = null;
@@ -15,13 +16,13 @@
 		init : function( options ) {
 			//Settings list and the default values
 			var defaults = {
-				classNames:{selectbox:'easy-select-box',displayer:'esb-displayer',dropdown:'esb-dropdown',item:'esb-item'},
+				classNames:{selectbox:'',displayer:'esb-displayer',dropdown:'esb-dropdown',item:'esb-item'},
 				disabled:false, //true to disable select,
 				onBuildList:null,//callback after dropdown items are built. Can be used for customized dropdown items appearance.
 				onClick:null,//callback when easySelect is clicked. Param data contains data.value and data.text
 				speed:0 //speed of opening and closing drop down in ms
 			};
-			options = $.extend(defaults, options);
+			options = $.extend(true, {}, defaults, options);
 			
 			return this.each(function() {
 				var selectObj = $(this);//jquery object of our select element
@@ -61,16 +62,21 @@
 						dropdownHtml = options.onBuildList.call(this, {'selectObj':selectObj, 'options':options, 'lists':lists, 'initialVal':initialVal});
 					}
 					
-					easySelectHtml = '<div tabindex="0" class="'+className+'">'+displayerHtml+dropdownHtml+'</div>';
+					easySelectHtml = '<div tabindex="0" class="easy-select-box '+className+'">'+displayerHtml+dropdownHtml+'</div>';
 					
 					//add to dom
 					easySelect = $(easySelectHtml).insertAfter(selectObj);
-					easySelect.addClass('easy-select-'+$('body').find('.'+options.classNames.selectbox).index(easySelect));//add a unique class
-					selectObj.hide();//hide the select element
+					easySelect.addClass('easy-select-'+$('body').find('.easy-select-box').index(easySelect));//add a class based on selectbox count
+					
 					
 					//easySelectBox parts
 					displayer = easySelect.children('.'+displayerClass);
 					dropdown = easySelect.children('.'+dropdownClass);
+					
+					//add structural css. Separates it from presentation css found in easySelect css file
+					_addStructuralCss(selectObj, easySelect, dropdown, displayer);
+					
+					selectObj.hide();//hide the select element
 					
 					//store all needed data
 					selectObj.data('easySelect', easySelect);//save the easySelectBox element associated with a select element
@@ -357,5 +363,16 @@
 		if(dropdown.is(':visible')){
 			_close(dropdown, options.speed);
 		}
+	}
+	
+	//css that makes the structure of easySelect. Separates it from presentation css found in easySelect css file css.
+	function _addStructuralCss(selectObj, easySelect, dropdown, displayer){
+		easySelect.css({
+			width:displayer.outerWidth()
+		});
+		borderWidth = parseInt(dropdown.css("border-left-width"), 10) + parseInt(dropdown.css("border-right-width"), 10);
+		dropdown.css({
+			width:easySelect.width()-borderWidth
+		});
 	}
 })(jQuery);
