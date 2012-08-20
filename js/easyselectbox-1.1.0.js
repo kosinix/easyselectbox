@@ -1,5 +1,5 @@
-/*
- * Easy Select Box 1.0.6
+/**
+ * Easy Select Box 1.1.0
  * http://codefleet.byethost9.com/easy-select-box/
  * Replace select with div for easy styling via css.
  * Features: multiple instances, initial value specified by selected attribute, optional classNames, optional speed, callback onClick, callback onBuildList
@@ -9,6 +9,9 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
+ *
+ * @contributor Carlos Vinicius < http://github.com/caljp13 >
+ *
  */
 (function($){
 	var timer = null;
@@ -20,7 +23,8 @@
 				disabled:false, //true to disable select,
 				onBuildList:null,//callback after dropdown items are built. Can be used for customized dropdown items appearance.
 				onClick:null,//callback when easySelect is clicked. Param data contains data.value and data.text
-				speed:0 //speed of opening and closing drop down in ms
+				speed:0, //speed of opening and closing drop down in ms
+				displayMethod:null //method of displaying the list ("visibility" or null)
 			};
 			options = $.extend(true, {}, defaults, options);
 			
@@ -56,7 +60,7 @@
 						}
 					});
 					dropdownHtml = '<div class="'+dropdownClass+'">'+dropdownHtml+'</div>';
-					displayerHtml = '<div class="'+displayerClass+'">'+lists.eq(initIndex).text()+'</div>';
+					displayerHtml = '<div class="'+displayerClass+'"><span>'+lists.eq(initIndex).text()+'</span></div>';
 					
 					if(options.onBuildList!=null){
 						dropdownHtml = options.onBuildList.call(this, {'selectObj':selectObj, 'options':options, 'lists':lists, 'initialVal':initialVal});
@@ -74,7 +78,7 @@
 					dropdown = easySelect.children('.'+dropdownClass);
 					
 					//add structural css. Separates it from presentation css found in easySelect css file
-					_addStructuralCss(selectObj, easySelect, dropdown, displayer);
+					_addStructuralCss(selectObj, easySelect, dropdown, displayer, options);
 					
 					selectObj.hide();//hide the select element
 					
@@ -184,7 +188,7 @@
 						easySelect.focus();
 					}
 					
-					if(!dropdown.is(':visible')){
+					if(!dropdown.is(':visible') || !dropdown.css("visibility")=="visible"){
 						_open(dropdown, options.speed);
 					}
 				}
@@ -275,9 +279,9 @@
 		var options = easySelectData.options;
 		
 		//alert($(e.target));
-		if($(e.target).get(0)==displayer.get(0) || $(e.target).get(0)==easySelect.get(0)){
+		if($(e.target).get(0)==displayer.get(0) || $(e.target).get(0)==displayer.find("span").get(0) || $(e.target).get(0)==easySelect.get(0)){
 
-			if(dropdown.is(':visible')){
+			if(dropdown.is(':visible') && dropdown.css("visibility")!="hidden"){
 				_close(dropdown, options.speed);
 			} else {
 				_open(dropdown, options.speed);
@@ -305,10 +309,16 @@
 		e.stopPropagation();
 	}
 	function _open(dropdown, speed){
-		dropdown.slideDown(speed);
+		if(dropdown.parent().data('easySelectData').options.displayMethod=="visibility")
+			dropdown.css("visibility","visible");
+		else
+			dropdown.slideDown(speed);
 	}
 	function _close(dropdown, speed){
-		dropdown.slideUp(speed);
+		if(dropdown.parent().data('easySelectData').options.displayMethod=="visibility")
+			dropdown.css("visibility","hidden");
+		else
+			dropdown.slideUp(speed);
 	}
 	function _focusin(e){
 		var easySelect = $(this);//$(this) refers to easySelect element
@@ -354,11 +364,12 @@
 		
 		//update easySelect
 		var selectedOption = selectObj.find('option').eq(index);
-		displayer.html(selectedOption.html());
+		displayer.find("span").html(selectedOption.html());
 		
 		//update select
 		selectObj.find('option').removeAttr('selected');
 		selectedOption.attr('selected','selected');
+		selectObj.trigger("onchange");
 		
 		if(dropdown.is(':visible')){
 			_close(dropdown, options.speed);
@@ -366,10 +377,12 @@
 	}
 	
 	//css that makes the structure of easySelect. Separates it from presentation css found in easySelect css file css.
-	function _addStructuralCss(selectObj, easySelect, dropdown, displayer){
-		easySelect.css({
-			width:displayer.outerWidth()
-		});
+	function _addStructuralCss(selectObj, easySelect, dropdown, displayer, options){
+		if(options.displayMethod=="visibility")
+			easySelect.css("width",dropdown.outerWidth());
+		else
+			easySelect.css("width",displayer.outerWidth());
+
 		borderWidth = parseInt(dropdown.css("border-left-width"), 10) + parseInt(dropdown.css("border-right-width"), 10);
 		dropdown.css({
 			width:easySelect.width()-borderWidth
