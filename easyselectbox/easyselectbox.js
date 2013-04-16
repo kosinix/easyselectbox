@@ -1,6 +1,6 @@
 /*
- * Easy Select Box 1.0.6
- * http://codefleet.byethost9.com/easy-select-box/
+ * Easy Select Box 1.0.7
+ * https://github.com/kosinix/easyselectbox
  * Replace select with div for easy styling via css.
  * Features: multiple instances, initial value specified by selected attribute, optional classNames, optional speed, callback onClick, callback onBuildList
  * Tested: IE7, IE8, Chrome 10, FF3, Safari 3.2 windows, Opera 11
