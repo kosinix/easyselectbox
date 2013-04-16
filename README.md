@@ -13,7 +13,6 @@ Replace select with div tags for easy styling via css.
 
 ### Links
 
-* [Home Page](http://codefleet.byethost9.com/easy-select-box/)
-* [Examples](http://codefleet.byethost9.com/easy-select-box-examples/)
-* [Download](http://codefleet.byethost9.com/wp-content/uploads/2012/05/easy_select_box-1.0.5.zip)
+* [Home Page](https://github.com/kosinix/easyselectbox)
+* [Download](https://github.com/kosinix/easyselectbox/archive/master.zip)
  
