@@ -359,6 +359,7 @@
 		//update select
 		selectObj.find('option').removeAttr('selected');
 		selectedOption.attr('selected','selected');
+		selectObj.trigger('change');
 		
 		if(dropdown.is(':visible')){
 			_close(dropdown, options.speed);
