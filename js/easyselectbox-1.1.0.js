@@ -9,9 +9,6 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
- *
- * @contributor Carlos Vinicius < http://github.com/caljp13 >
- *
  */
 (function($){
 	var timer = null;
