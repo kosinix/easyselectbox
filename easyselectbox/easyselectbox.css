@@ -19,7 +19,7 @@
 	color:#0c2245;
 }
 .easy-select-box .esb-displayer{
-	background: url(../images/bg-select-1.png) no-repeat 0 0;
+	background: url(images/bg-select-1.png) no-repeat 0 0;
 	color:#0c2245;
 	padding:0 3px;
 	height:18px;
@@ -61,7 +61,7 @@
 	min-width:200px;
 }
 .easy-select-box-nice .esb-displayer{
-	background: url(../images/bg-select-2.png) no-repeat right 0;
+	background: url(images/bg-select-2.png) no-repeat right 0;
 	border-left:1px solid #cccccc;
 	border-right:1px solid #cccccc;
 	padding:0 5px;
